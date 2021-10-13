@@ -1,3 +1,6 @@
+#ifndef __ASTAR__HPP__
+#define __ASTAR__HPP__
+
 #include <algorithm>
 #include <iostream>
 #include <string>
@@ -288,3 +291,4 @@ namespace AStar
         return path;
     }
 }
+#endif
