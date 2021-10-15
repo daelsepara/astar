@@ -88,7 +88,7 @@ namespace AStar
 
             Parent = parent;
         }
-        
+
         // Total cost to traverse this node
         int CostDistance()
         {
@@ -242,7 +242,7 @@ namespace AStar
 
                         node = node->Parent;
                     }
-                    
+
                     // Reverse list of coordinates so path leads from src to dst
                     std::reverse(path.Points.begin(), path.Points.end());
 
