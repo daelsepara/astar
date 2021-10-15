@@ -233,20 +233,15 @@ namespace AStar
                     // Copy map
                     path.Map = map;
 
-                    while (true)
+                    while (node)
                     {
                         path.Points.push_back(AStar::Point(node->X, node->Y));
 
                         node = node->Parent;
-
-                        if (node == NULL)
-                        {
-                            // Reverse list of coordinates so path leads from src to dst
-                            std::reverse(path.Points.begin(), path.Points.end());
-
-                            break;
-                        }
                     }
+
+                    // Reverse list of coordinates so path leads from src to dst
+                    std::reverse(path.Points.begin(), path.Points.end());
 
                     return path;
                 }
