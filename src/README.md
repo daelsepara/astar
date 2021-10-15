@@ -390,7 +390,7 @@ A***
 ==10456== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 ```
 
-Notice in the original version that uses raw pointers, valgrind reports about the memory leaks while in the smart pointers version
+Notice in the original version that uses raw pointers, **valgrind** reports about the memory leaks while in the smart pointers version
 
 ```
 ==10433== All heap blocks were freed -- no leaks are possible
@@ -398,7 +398,7 @@ Notice in the original version that uses raw pointers, valgrind reports about th
 
 No memory is leaked.
 
-Eagle eyed readers will also notice that I invoked valgrind with the **--undef-value-errors=no** option. I had removed the **Conditional jump or move depends on uninitialised value(s)** errors from the output as the errors reported point valgrind's problems with C++'s **stl** library, specifically the **std::sort()** function. However, that discussion, we will reserve for another day. The important take away here (for now) is that smart pointers are a way to address memory leaks.
+Eagle-eyed readers will have noticed that I invoked **valgrind** with the **--undef-value-errors=no** option. I had removed the **Conditional jump or move depends on uninitialised value(s)** errors from the output as the errors reported point **valgrind**'s problems with C++'s **stl** library, specifically the **std::sort()** function. However, that discussion, we will reserve for another day. The important take away here (for now) is that smart pointers are a way to address memory leaks.
 
 # Bugs and Reporting
 
