@@ -138,7 +138,7 @@ A***
 
 # Custom mazes
 
-To find a path in a custom maze, construct a maze and store it in a text file. The text file should already contain both **A** and **B**. Afterwards, call **astar** fom the command line with the file you have created. Several examples are provided here. They are found in the ![examples](examples/) directory of this repository.
+To find a path in a custom maze, construct a maze and store it in a text file. The text file should already contain both **A** and **B**. Afterwards, call **astar** fom the command line with the file you have created. Several examples are provided here. They are found in the ![examples](src/examples/) directory of this repository.
 
 ## Example
 
