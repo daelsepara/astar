@@ -19,7 +19,7 @@ To improve on this, **linked_listv2.cpp** and **astarv2.hpp** have been implemen
 
 # A* Pathfinding
 
-The main purpose of this repo is to present a C++ implementation of the C# A* Pathfinding example I found here_ ![https://dotnetcoretutorials.com/2020/07/25/a-search-pathfinding-algorithm-in-c/](https://dotnetcoretutorials.com/2020/07/25/a-search-pathfinding-algorithm-in-c/). I have also made some minor modifications to the C++ implmentation so that it can easily attach to other projects. The linked list part of this repository was simply a stepping stone towards A*.
+The main purpose of this repo is to present a C++ implementation of the C# A* Pathfinding example I found here [https://dotnetcoretutorials.com/2020/07/25/a-search-pathfinding-algorithm-in-c/](https://dotnetcoretutorials.com/2020/07/25/a-search-pathfinding-algorithm-in-c/). I have also made some minor modifications to the C++ implmentation so that it can easily attach to other projects. The linked list part of this repository was simply a stepping stone towards A*.
 
 # Compiling
 
@@ -138,7 +138,7 @@ A***
 
 # Custom mazes
 
-To find a path in a custom maze, construct a maze and store it in a text file. The text file should already contain both **A** and **B**. Afterwards, call **astar** fom the command line with the file you have created. Several examples are provided here. They are found in the ![examples](https://github.com/daelsepara/astar/tree/main/src/examples) directory of this repository.
+To find a path in a custom maze, construct a maze and store it in a text file. The text file should already contain both **A** and **B**. Afterwards, call **astar** fom the command line with the file you have created. Several examples are provided here. They are found in the ![examples](examples/) directory of this repository.
 
 ## Example
 
