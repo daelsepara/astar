@@ -239,7 +239,7 @@ namespace AStar
 
                         node = node->Parent;
 
-                        if (node == NULL)
+                        if (node == nullptr)
                         {
                             // Reverse list of coordinates so path leads from src to dst
                             std::reverse(path.Points.begin(), path.Points.end());
