@@ -1,23 +1,24 @@
 #include <cstddef>
 #include <iostream>
+#include <memory>
 
 class Node
 {
 public:
 	int data;
 	
-	Node *next;
+	std::shared_ptr<Node> next = nullptr;
 };
 
-void display(Node *n)
+void display(std::shared_ptr<Node> n)
 {
-    while (n != NULL)
+    while (n != nullptr)
     {
 		std::cout << n->data;
         
         n = n->next;
         
-        if (n != NULL)
+        if (n != nullptr)
         {
 			 std::cout << " => ";
 		}
@@ -27,15 +28,15 @@ void display(Node *n)
 } 
 
 // add to end of list
-void append(Node **head_ref, int new_data)
+void append(std::shared_ptr<Node> &head_ref, int new_data)
 {
-    Node *new_node = new Node();
-    Node *last = *head_ref;
+    auto new_node = std::make_shared<Node>();
+    auto last = head_ref;
     
     new_node->data = new_data;
-    new_node->next = NULL;
+    new_node->next = nullptr;
     
-    while (last->next != NULL)
+    while (last->next != nullptr)
     {
         last = last->next;
 	}
@@ -44,25 +45,25 @@ void append(Node **head_ref, int new_data)
 }
 
 // add to the beginning of list (becomes new head)
-void push(Node **head_ref, int new_data)
+void push(std::shared_ptr<Node> &head_ref, int new_data)
 {
-    Node *new_node = new Node();
+    auto new_node = std::make_shared<Node>();
     new_node->data = new_data;
-    new_node->next = (*head_ref);
-    (*head_ref) = new_node;
+    new_node->next = head_ref;
+    head_ref = new_node;
 } 
 
 // insert after a specific node
-void insert(Node *prev_node, int new_data)
+void insert(std::shared_ptr<Node> &prev_node, int new_data)
 {
-    if (prev_node == NULL)
+    if (prev_node == nullptr)
     {
-        std::cout << "the given previous node cannot be NULL" << std::endl;
+        std::cout << "the given previous node cannot be nullptr" << std::endl;
         
         return;
     }
     
-    Node *new_node = new Node();
+    auto new_node = std::make_shared<Node>();
     
     new_node->data = new_data;
     new_node->next = prev_node->next;
@@ -71,9 +72,9 @@ void insert(Node *prev_node, int new_data)
 
 int main()
 {
-    auto head = new Node();
-    auto second = new Node();
-    auto third = new Node();
+    auto head = std::make_shared<Node>();
+    auto second = std::make_shared<Node>();
+    auto third = std::make_shared<Node>();
 
     head->data = 1;
     head->next = second;
@@ -88,11 +89,11 @@ int main()
     display(head);
     
     std::cout << "push to front (before 1):" << std::endl;
-    push(&head, 11);
+    push(head, 11);
     display(head);
     
     std::cout << "append at the end (after 3):" << std::endl;
-    append(&head, 12);
+    append(head, 12);
     display(head);
     
     std::cout << "insert (after 2):" << std::endl;
