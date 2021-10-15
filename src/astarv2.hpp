@@ -1,13 +1,13 @@
-#ifndef __ASTAR_HPP__
-#define __ASTAR_HPP__
-
 #include <algorithm>
 #include <iostream>
+#include <memory>
 #include <string>
 #include <vector>
 
 // A C++ version of A* pathfinding algorithm from https://dotnetcoretutorials.com/2020/07/25/a-search-pathfinding-algorithm-in-c/
 // Most of the comments from the original version are preserved and/or have minor modifications.
+//
+// This version uses smart pointers
 namespace AStar
 {
     // Cartesian coordinates (see Path class below)
@@ -69,13 +69,13 @@ namespace AStar
 
         int Distance;
 
-        AStar::Node *Parent = NULL;
+        std::shared_ptr<AStar::Node> Parent = nullptr;
 
         Node()
         {
         }
 
-        Node(int x, int y, int cost, AStar::Node *parent)
+        Node(int x, int y, int cost, std::shared_ptr<AStar::Node> parent)
         {
             X = x;
 
@@ -85,7 +85,7 @@ namespace AStar
 
             Parent = parent;
         }
-
+        
         // Total cost to traverse this node
         int CostDistance()
         {
@@ -96,16 +96,16 @@ namespace AStar
         // So how many nodes left and right, up and down, ignoring obstacles, to get there.
         //
         // Computes the 2D Manhattan Distance
-        void SetDistance(AStar::Node *node)
+        void SetDistance(std::shared_ptr<AStar::Node> node)
         {
             Distance = std::abs(node->X - X) + std::abs(node->Y - Y);
         }
     };
 
     // Get all traversible nodes from current node
-    std::vector<AStar::Node *> Nodes(std::vector<std::string> &map, AStar::Node *current, AStar::Node *target, const char &dst, const char &passable)
+    std::vector<std::shared_ptr<AStar::Node>> Nodes(std::vector<std::string> &map, std::shared_ptr<AStar::Node> current, std::shared_ptr<AStar::Node> target, const char &dst, const char &passable)
     {
-        auto traversable = std::vector<AStar::Node *>();
+        auto traversable = std::vector<std::shared_ptr<AStar::Node>>();
 
         if (map.size() > 0)
         {
@@ -113,13 +113,13 @@ namespace AStar
 
             auto mapY = map.size() - 1;
 
-            auto possible = std::vector<AStar::Node *>();
+            auto possible = std::vector<std::shared_ptr<AStar::Node>>();
 
             // Generate possible nodes
-            possible.push_back(new AStar::Node(current->X, current->Y - 1, current->Cost + 1, current));
-            possible.push_back(new AStar::Node(current->X, current->Y + 1, current->Cost + 1, current));
-            possible.push_back(new AStar::Node(current->X - 1, current->Y, current->Cost + 1, current));
-            possible.push_back(new AStar::Node(current->X + 1, current->Y, current->Cost + 1, current));
+            possible.push_back(std::make_shared<AStar::Node>(current->X, current->Y - 1, current->Cost + 1, current));
+            possible.push_back(std::make_shared<AStar::Node>(current->X, current->Y + 1, current->Cost + 1, current));
+            possible.push_back(std::make_shared<AStar::Node>(current->X - 1, current->Y, current->Cost + 1, current));
+            possible.push_back(std::make_shared<AStar::Node>(current->X + 1, current->Y, current->Cost + 1, current));
 
             for (auto i = 0; i < possible.size(); i++)
             {
@@ -137,7 +137,7 @@ namespace AStar
     }
 
     // Get index of node from a list
-    int Index(std::vector<AStar::Node *> nodes, AStar::Node *node)
+    int Index(std::vector<std::shared_ptr<AStar::Node>> nodes, std::shared_ptr<AStar::Node> node)
     {
         auto index = -1;
 
@@ -155,7 +155,7 @@ namespace AStar
     }
 
     // Remove node from list
-    void Remove(std::vector<AStar::Node *> &nodes, AStar::Node *node)
+    void Remove(std::vector<std::shared_ptr<AStar::Node>> &nodes, std::shared_ptr<AStar::Node> node)
     {
         auto index = AStar::Index(nodes, node);
 
@@ -166,7 +166,7 @@ namespace AStar
     }
 
     // Check if node is on the list
-    bool Any(std::vector<AStar::Node *> nodes, AStar::Node *node)
+    bool Any(std::vector<std::shared_ptr<AStar::Node>> nodes, std::shared_ptr<AStar::Node> node)
     {
         auto index = AStar::Index(nodes, node);
 
@@ -174,7 +174,7 @@ namespace AStar
     }
 
     // Get coordinates of an object on the map
-    void Coordinates(std::vector<std::string> &map, const char c, AStar::Node *node)
+    void Coordinates(std::vector<std::string> &map, const char c, std::shared_ptr<AStar::Node> node)
     {
         for (auto i = 0; i < map.size(); i++)
         {
@@ -198,28 +198,28 @@ namespace AStar
 
         if (map.size() > 0)
         {
-            auto start = new AStar::Node();
+            auto start = std::make_shared<AStar::Node>();
 
             AStar::Coordinates(map, src, start);
 
-            auto end = new AStar::Node();
+            auto end = std::make_shared<AStar::Node>();
 
             AStar::Coordinates(map, dst, end);
 
             start->SetDistance(end);
 
             // List of nodes to be checked
-            auto active = std::vector<AStar::Node *>();
+            auto active = std::vector<std::shared_ptr<AStar::Node>>();
 
             // List of nodes already visited
-            auto visited = std::vector<AStar::Node *>();
+            auto visited = std::vector<std::shared_ptr<AStar::Node>>();
 
             active.push_back(start);
 
             while (active.size() > 0)
             {
                 // Sort based on CostDistance
-                std::sort(active.begin(), active.end(), [](AStar::Node *src, AStar::Node *dst)
+                std::sort(active.begin(), active.end(), [](std::shared_ptr<AStar::Node> src, std::shared_ptr<AStar::Node> dst)
                           { return src->CostDistance() < dst->CostDistance(); });
 
                 auto check = active.front();
@@ -291,4 +291,3 @@ namespace AStar
         return path;
     }
 }
-#endif

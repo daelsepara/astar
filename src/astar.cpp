@@ -2,7 +2,11 @@
 #include <vector>
 #include <fstream>
 
+#if defined(USEV2)
+#include "astarv2.hpp"
+#else
 #include "astar.hpp"
+#endif
 
 // Helper function to print coordinates
 void Print(std::vector<AStar::Point> &points)
