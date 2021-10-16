@@ -103,7 +103,7 @@ namespace AStar
     };
 
     // Get all traversible nodes from current node
-    std::vector<AStar::Node *> Nodes(std::vector<std::string> &map, AStar::Node *current, AStar::Node *target, const char &dst, const char &passable)
+    std::vector<AStar::Node *> Nodes(std::vector<std::string> &map, AStar::Node *current, AStar::Node *target, const char dst, const char passable)
     {
         auto traversable = std::vector<AStar::Node *>();
 
@@ -137,7 +137,7 @@ namespace AStar
     }
 
     // Get index of node from a list
-    int Index(std::vector<AStar::Node *> nodes, AStar::Node *node)
+    int Index(std::vector<AStar::Node *> &nodes, AStar::Node *node)
     {
         auto index = -1;
 
@@ -166,7 +166,7 @@ namespace AStar
     }
 
     // Check if node is on the list
-    bool Any(std::vector<AStar::Node *> nodes, AStar::Node *node)
+    bool Any(std::vector<AStar::Node *> &nodes, AStar::Node *node)
     {
         auto index = AStar::Index(nodes, node);
 
@@ -192,7 +192,7 @@ namespace AStar
     }
 
     // Find path from src to dst using the A* algorithm
-    AStar::Path FindPath(std::vector<std::string> &map, const char &src, const char &dst, const char &passable)
+    AStar::Path FindPath(std::vector<std::string> &map, const char src, const char dst, const char passable)
     {
         auto path = AStar::Path();
 
