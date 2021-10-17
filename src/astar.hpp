@@ -102,9 +102,17 @@ namespace AStar
         }
     };
 
+    bool IsPassable(std::vector<std::string> &map, int X, int Y, int mapX, int mapY, const char dst, const char passable)
+    {
+        return (X >= 0 && X <= mapX && Y >= 0 && Y <= mapY && (map[Y][X] == passable || map[Y][X] == dst));
+    }
+
     // Get all traversible nodes from current node
     std::vector<AStar::Node *> Nodes(std::vector<std::string> &map, AStar::Node *current, AStar::Node *target, const char dst, const char passable)
     {
+        // Define neighbors (X, Y): Up, Down, Left, Right
+        std::vector<std::pair<int, int>> neighbors = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+
         auto traversable = std::vector<AStar::Node *>();
 
         if (map.size() > 0)
@@ -113,22 +121,18 @@ namespace AStar
 
             auto mapY = map.size() - 1;
 
-            auto possible = std::vector<AStar::Node *>();
-
-            // Generate possible nodes
-            possible.push_back(new AStar::Node(current->X, current->Y - 1, current->Cost + 1, current));
-            possible.push_back(new AStar::Node(current->X, current->Y + 1, current->Cost + 1, current));
-            possible.push_back(new AStar::Node(current->X - 1, current->Y, current->Cost + 1, current));
-            possible.push_back(new AStar::Node(current->X + 1, current->Y, current->Cost + 1, current));
-
-            for (auto i = 0; i < possible.size(); i++)
+            for (auto i = 0; i < neighbors.size(); i++)
             {
-                // Check if within map boundaries and if passable and/or leads to destination
-                if (possible[i]->X >= 0 && possible[i]->X <= mapX && possible[i]->Y >= 0 && possible[i]->Y <= mapY && (map[possible[i]->Y][possible[i]->X] == passable || map[possible[i]->Y][possible[i]->X] == dst))
-                {
-                    possible[i]->SetDistance(target);
+                auto index = 0;
 
-                    traversable.push_back(possible[i]);
+                // Check if within map boundaries and if passable and/or leads to destination
+                if (AStar::IsPassable(map, current->X + neighbors[i].first, current->Y + neighbors[i].second, mapX, mapY, dst, passable))
+                {
+                    traversable.push_back(new AStar::Node(current->X + neighbors[i].first, current->Y + neighbors[i].second, current->Cost + 1, current));
+
+                    traversable[index]->SetDistance(target);
+
+                    index++;
                 }
             }
         }
