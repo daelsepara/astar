@@ -274,7 +274,7 @@ namespace AStar
                     {
                         auto existing = active[AStar::Index(active, node)];
 
-                        if (existing->CostDistance() > check->CostDistance())
+                        if (existing->CostDistance() > node->CostDistance())
                         {
                             AStar::Remove(active, existing);
 
