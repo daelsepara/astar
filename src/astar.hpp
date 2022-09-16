@@ -47,12 +47,11 @@ namespace AStar
         // Helper function to mark path on map
         void Mark(const char c)
         {
-            for (auto i = 0; i < Points.size(); i++)
+            for (auto point = std::next(Points.begin()); point != --Points.end(); point++)
             {
-                if (i > 0 && i < Points.size() - 1)
-                {
-                    Map[Points[i].Y][Points[i].X] = c;
-                }
+                auto tile = *point;
+
+                Map[tile.Y][tile.X] = c;
             }
         }
     };
@@ -115,7 +114,7 @@ namespace AStar
 
         auto traversable = std::vector<AStar::Node *>();
 
-        if (map.size() > 0)
+        if (!map.empty())
         {
             auto mapX = map.front().length() - 1;
 
@@ -187,7 +186,7 @@ namespace AStar
     {
         auto path = AStar::Path();
 
-        if (map.size() > 0)
+        if (!map.empty())
         {
             auto start = new AStar::Node();
 
@@ -207,7 +206,7 @@ namespace AStar
 
             active.push_back(start);
 
-            while (active.size() > 0)
+            while (!active.empty())
             {
                 // Sort based on CostDistance
                 std::sort(active.begin(), active.end(), [](AStar::Node *src, AStar::Node *dst)
