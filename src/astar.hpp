@@ -101,18 +101,20 @@ namespace AStar
         }
     };
 
+    typedef std::vector<AStar::Node *> Moves;
+
     bool IsPassable(std::vector<std::string> &map, int X, int Y, int mapX, int mapY, const char dst, const char passable)
     {
         return (X >= 0 && X <= mapX && Y >= 0 && Y <= mapY && (map[Y][X] == passable || map[Y][X] == dst));
     }
 
     // Get all traversible nodes from current node
-    std::vector<AStar::Node *> Nodes(std::vector<std::string> &map, AStar::Node *current, AStar::Node *target, const char dst, const char passable)
+    Moves Nodes(std::vector<std::string> &map, AStar::Node *current, AStar::Node *target, const char dst, const char passable)
     {
         // Define neighbors (X, Y): Up, Down, Left, Right
         std::vector<std::pair<int, int>> neighbors = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
 
-        auto traversable = std::vector<AStar::Node *>();
+        auto traversable = Moves();
 
         if (!map.empty())
         {
@@ -140,14 +142,14 @@ namespace AStar
     }
 
     // Get index of node from a list
-    std::vector<AStar::Node *>::iterator Find(std::vector<AStar::Node *> &nodes, AStar::Node *node)
+    Moves::iterator Find(Moves &nodes, AStar::Node *node)
     {
         return std::find_if(nodes.begin(), nodes.end(), [node](const Node *f) -> bool
                             { return f->X == node->X && f->Y == node->Y; });
     }
 
     // Remove node from list
-    void Remove(std::vector<AStar::Node *> &nodes, AStar::Node *node)
+    void Remove(Moves &nodes, AStar::Node *node)
     {
         auto found = AStar::Find(nodes, node);
 
@@ -158,7 +160,7 @@ namespace AStar
     }
 
     // Check if node is on the list
-    bool Is(std::vector<AStar::Node *> &nodes, AStar::Node *node)
+    bool Is(Moves &nodes, AStar::Node *node)
     {
         return AStar::Find(nodes, node) != nodes.end();
     }
@@ -199,10 +201,10 @@ namespace AStar
             start->SetDistance(end);
 
             // List of nodes to be checked
-            auto active = std::vector<AStar::Node *>();
+            auto active = Moves();
 
             // List of nodes already visited
-            auto visited = std::vector<AStar::Node *>();
+            auto visited = Moves();
 
             active.push_back(start);
 

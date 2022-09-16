@@ -13,6 +13,9 @@
 // This version uses smart pointers
 namespace AStar
 {
+    template <typename T>
+    using Smart = std::shared_ptr<T>;
+
     // Cartesian coordinates (see Path class below)
     class Point
     {
@@ -71,13 +74,13 @@ namespace AStar
 
         int Distance;
 
-        std::shared_ptr<AStar::Node> Parent = nullptr;
+        Smart<AStar::Node> Parent = nullptr;
 
         Node()
         {
         }
 
-        Node(int x, int y, int cost, std::shared_ptr<AStar::Node> &parent)
+        Node(int x, int y, int cost, Smart<AStar::Node> &parent)
         {
             X = x;
 
@@ -98,11 +101,13 @@ namespace AStar
         // So how many nodes left and right, up and down, ignoring obstacles, to get there.
         //
         // Computes the 2D Manhattan Distance
-        void SetDistance(std::shared_ptr<AStar::Node> &node)
+        void SetDistance(Smart<AStar::Node> &node)
         {
             Distance = std::abs(node->X - X) + std::abs(node->Y - Y);
         }
     };
+
+    typedef std::vector<Smart<AStar::Node>> Moves;
 
     bool IsPassable(std::vector<std::string> &map, int X, int Y, int mapX, int mapY, const char dst, const char passable)
     {
@@ -110,12 +115,12 @@ namespace AStar
     }
 
     // Get all traversible nodes from current node
-    std::vector<std::shared_ptr<AStar::Node>> Nodes(std::vector<std::string> &map, std::shared_ptr<AStar::Node> &current, std::shared_ptr<AStar::Node> &target, const char dst, const char passable)
+    Moves Nodes(std::vector<std::string> &map, Smart<AStar::Node> &current, Smart<AStar::Node> &target, const char dst, const char passable)
     {
         // Define neighbors (X, Y): Up, Down, Left, Right
         std::vector<std::pair<int, int>> neighbors = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
 
-        auto traversable = std::vector<std::shared_ptr<AStar::Node>>();
+        auto traversable = Moves();
 
         if (!map.empty())
         {
@@ -143,14 +148,14 @@ namespace AStar
     }
 
     // Get index of node from a list
-    std::vector<std::shared_ptr<AStar::Node>>::iterator Find(std::vector<std::shared_ptr<AStar::Node>> &nodes, std::shared_ptr<AStar::Node> &node)
+    Moves::iterator Find(Moves &nodes, Smart<AStar::Node> &node)
     {
-        return std::find_if(nodes.begin(), nodes.end(), [node](const std::shared_ptr<Node> &f) -> bool
+        return std::find_if(nodes.begin(), nodes.end(), [node](const Smart<Node> &f) -> bool
                             { return f->X == node->X && f->Y == node->Y; });
     }
 
     // Remove node from list
-    void Remove(std::vector<std::shared_ptr<AStar::Node>> &nodes, std::shared_ptr<AStar::Node> &node)
+    void Remove(Moves &nodes, Smart<AStar::Node> &node)
     {
         auto found = AStar::Find(nodes, node);
 
@@ -161,13 +166,13 @@ namespace AStar
     }
 
     // Check if node is on the list
-    bool Is(std::vector<std::shared_ptr<AStar::Node>> &nodes, std::shared_ptr<AStar::Node> &node)
+    bool Is(Moves &nodes, Smart<AStar::Node> &node)
     {
         return AStar::Find(nodes, node) != nodes.end();
     }
 
     // Get coordinates of an object on the map
-    void Coordinates(std::vector<std::string> &map, const char c, std::shared_ptr<AStar::Node> &node)
+    void Coordinates(std::vector<std::string> &map, const char c, Smart<AStar::Node> &node)
     {
         for (auto i = 0; i < map.size(); i++)
         {
@@ -202,17 +207,17 @@ namespace AStar
             start->SetDistance(end);
 
             // List of nodes to be checked
-            auto active = std::vector<std::shared_ptr<AStar::Node>>();
+            auto active = Moves();
 
             // List of nodes already visited
-            auto visited = std::vector<std::shared_ptr<AStar::Node>>();
+            auto visited = Moves();
 
             active.push_back(start);
 
             while (!active.empty())
             {
                 // Sort based on CostDistance
-                std::sort(active.begin(), active.end(), [](std::shared_ptr<AStar::Node> &src, std::shared_ptr<AStar::Node> &dst)
+                std::sort(active.begin(), active.end(), [](Smart<AStar::Node> &src, Smart<AStar::Node> &dst)
                           { return src->CostDistance() < dst->CostDistance(); });
 
                 auto check = active.front();
