@@ -124,14 +124,14 @@ namespace AStar
 
             auto mapY = map.size() - 1;
 
-            for (auto i = 0; i < neighbors.size(); i++)
+            for (auto &neighbor : neighbors)
             {
                 auto index = 0;
 
                 // Check if within map boundaries and if passable and/or leads to destination
-                if (AStar::IsPassable(map, current->X + neighbors[i].first, current->Y + neighbors[i].second, mapX, mapY, dst, passable))
+                if (AStar::IsPassable(map, current->X + neighbor.first, current->Y + neighbor.second, mapX, mapY, dst, passable))
                 {
-                    traversable.push_back(std::make_shared<AStar::Node>(current->X + neighbors[i].first, current->Y + neighbors[i].second, current->Cost + 1, current));
+                    traversable.push_back(std::make_shared<AStar::Node>(current->X + neighbor.first, current->Y + neighbor.second, current->Cost + 1, current));
 
                     traversable[index]->SetDistance(target);
 
@@ -144,40 +144,27 @@ namespace AStar
     }
 
     // Get index of node from a list
-    int Index(std::vector<std::shared_ptr<AStar::Node>> &nodes, std::shared_ptr<AStar::Node> &node)
+    std::vector<std::shared_ptr<AStar::Node>>::iterator Find(std::vector<std::shared_ptr<AStar::Node>> &nodes, std::shared_ptr<AStar::Node> &node)
     {
-        auto index = -1;
-
-        for (auto i = 0; i < nodes.size(); i++)
-        {
-            if (nodes[i]->X == node->X && nodes[i]->Y == node->Y)
-            {
-                index = i;
-
-                break;
-            }
-        }
-
-        return index;
+        return std::find_if(nodes.begin(), nodes.end(), [node](const std::shared_ptr<Node> &f) -> bool
+                            { return f->X == node->X && f->Y == node->Y; });
     }
 
     // Remove node from list
     void Remove(std::vector<std::shared_ptr<AStar::Node>> &nodes, std::shared_ptr<AStar::Node> &node)
     {
-        auto index = AStar::Index(nodes, node);
+        auto found = AStar::Find(nodes, node);
 
-        if (index >= 0 && index < nodes.size())
+        if (found != nodes.end())
         {
-            nodes.erase(nodes.begin() + index);
+            nodes.erase(found);
         }
     }
 
     // Check if node is on the list
-    bool Any(std::vector<std::shared_ptr<AStar::Node>> &nodes, std::shared_ptr<AStar::Node> &node)
+    bool Is(std::vector<std::shared_ptr<AStar::Node>> &nodes, std::shared_ptr<AStar::Node> &node)
     {
-        auto index = AStar::Index(nodes, node);
-
-        return (index >= 0 && index < nodes.size());
+        return AStar::Find(nodes, node) != nodes.end();
     }
 
     // Get coordinates of an object on the map
@@ -259,20 +246,18 @@ namespace AStar
 
                 auto nodes = AStar::Nodes(map, check, end, dst, passable);
 
-                for (auto i = 0; i < nodes.size(); i++)
+                for (auto &node : nodes)
                 {
-                    auto node = nodes[i];
-
                     // We have already visited this node so we don't need to do so again!
-                    if (AStar::Any(visited, node))
+                    if (AStar::Is(visited, node))
                     {
                         continue;
                     }
 
                     // It's already in the active list, but that's OK, maybe this new node has a better value (e.g. We might zigzag earlier but this is now straighter).
-                    if (AStar::Any(active, node))
+                    if (AStar::Is(active, node))
                     {
-                        auto existing = active[AStar::Index(active, node)];
+                        auto existing = *AStar::Find(active, node);
 
                         if (existing->CostDistance() > node->CostDistance())
                         {
