@@ -10,6 +10,13 @@
 // Most of the comments from the original version are preserved and/or have minor modifications.
 namespace AStar
 {
+    template <typename T, typename R = typename std::vector<T>::iterator>
+    R Find(std::vector<T> &vector, T key, bool F(T, T))
+    {
+        return std::find_if(vector.begin(), vector.end(), [&](T f)
+                            { return F(key, f); });
+    }
+
     // Cartesian coordinates (see Path class below)
     class Point
     {
@@ -141,11 +148,15 @@ namespace AStar
         return traversable;
     }
 
+    bool Compare(AStar::Node *a, AStar::Node *b)
+    {
+        return a->X == b->X && a->Y == b->Y;
+    }
+
     // Get index of node from a list
     Moves::iterator Find(Moves &nodes, AStar::Node *node)
     {
-        return std::find_if(nodes.begin(), nodes.end(), [node](const Node *f) -> bool
-                            { return f->X == node->X && f->Y == node->Y; });
+        return AStar::Find(nodes, node, Compare);
     }
 
     // Remove node from list
