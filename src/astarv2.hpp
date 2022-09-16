@@ -16,7 +16,7 @@ namespace AStar
     template <typename T>
     using Smart = std::shared_ptr<T>;
 
-    template <typename T, typename R = typename std::vector<T>::iterator>
+    template <typename T, typename R = typename std::vector<T>::const_iterator>
     R Find(std::vector<T> &vector, T &key, bool F(T &, T &))
     {
         return std::find_if(vector.begin(), vector.end(), [&](T &f)
@@ -160,7 +160,7 @@ namespace AStar
     }
 
     // Get index of node from a list
-    Moves::iterator Find(Moves &nodes, Smart<AStar::Node> &node)
+    Moves::const_iterator Find(Moves &nodes, Smart<AStar::Node> &node)
     {
         return AStar::Find(nodes, node, Compare);
     }

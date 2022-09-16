@@ -10,7 +10,7 @@
 // Most of the comments from the original version are preserved and/or have minor modifications.
 namespace AStar
 {
-    template <typename T, typename R = typename std::vector<T>::iterator>
+    template <typename T, typename R = typename std::vector<T>::const_iterator>
     R Find(std::vector<T> &vector, T key, bool F(T, T))
     {
         return std::find_if(vector.begin(), vector.end(), [&](T f)
@@ -154,7 +154,7 @@ namespace AStar
     }
 
     // Get index of node from a list
-    Moves::iterator Find(Moves &nodes, AStar::Node *node)
+    Moves::const_iterator Find(Moves &nodes, AStar::Node *node)
     {
         return AStar::Find(nodes, node, Compare);
     }
