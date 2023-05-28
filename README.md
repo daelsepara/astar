@@ -50,17 +50,17 @@ To demonstrate A*, you can type on the command line:
 or for the version that uses smart pointers:
 
 ```
-./astarv2.exe 
+./astarv2.exe
 ```
 
 It defaults an 6x11 (rows x columns) layout:
 
 ```
-A          
+A
 --| |------
-           
-   |-----| 
-   |     | 
+
+   |-----|
+   |     |
 ---|     |B
 ```
 
@@ -90,7 +90,7 @@ If a path is found, it will print the coordinates of **A**'s movement towards **
 Afterwards, it will be marked on the map with an __*__:
 
 ```
-A***       
+A***
 --|*|------
    ********
    |-----|*
@@ -102,11 +102,11 @@ A***
 
 ```
 Initial Map:
-A          
+A
 --| |------
-           
-   |-----| 
-   |     | 
+
+   |-----|
+   |     |
 ---|     |B
 
 Path from A to B (X, Y) required 15 steps:
@@ -128,7 +128,7 @@ Path from A to B (X, Y) required 15 steps:
 (10, 5)
 
 Map:
-A***       
+A***
 --|*|------
    ********
    |-----|*
@@ -150,27 +150,27 @@ To find a path in a custom maze, construct a maze and store it in a text file. T
 
 ```
 Initial Map:
-- - - - - - - - - - - - - - - - - - - - - 
-|                       |       |       B 
--   -   - - - - - - -   -   -   -   - - - 
-|   |   |                   |   |       | 
-- - -   - - - - -   - - - - -   - - -   - 
-|       |       |   |       |           | 
--   - - -   -   - - -   -   - - - - -   - 
-|           |           |       |   |   | 
--   - - - - - - - - - - - - -   -   -   - 
-|       |   |       |           |   |   | 
-- - -   -   -   -   -   - - - - -   -   - 
-|   |   |   |   |   |   |               | 
--   -   -   -   -   -   - - - - - - -   - 
-|   |       |   |       |           |   | 
--   - - -   -   - - - - -   - - -   -   - 
-|       |   |       |       |   |   |   | 
-- - -   -   - - -   -   - - -   -   -   - 
-|       |   |       |   |       |   |   | 
--   - - -   -   - - -   - - -   -   - - - 
-|           |                   |       | 
-- A - - - - - - - - - - - - - - - - - - - 
+- - - - - - - - - - - - - - - - - - - - -
+|                       |       |       B
+-   -   - - - - - - -   -   -   -   - - -
+|   |   |                   |   |       |
+- - -   - - - - -   - - - - -   - - -   -
+|       |       |   |       |           |
+-   - - -   -   - - -   -   - - - - -   -
+|           |           |       |   |   |
+-   - - - - - - - - - - - - -   -   -   -
+|       |   |       |           |   |   |
+- - -   -   -   -   -   - - - - -   -   -
+|   |   |   |   |   |   |               |
+-   -   -   -   -   -   - - - - - - -   -
+|   |       |   |       |           |   |
+-   - - -   -   - - - - -   - - -   -   -
+|       |   |       |       |   |   |   |
+- - -   -   - - -   -   - - -   -   -   -
+|       |   |       |   |       |   |   |
+-   - - -   -   - - -   - - -   -   - - -
+|           |                   |       |
+- A - - - - - - - - - - - - - - - - - - -
 
 Path from A to B (X, Y) required 65 steps:
 (2, 20) U
@@ -241,26 +241,26 @@ Path from A to B (X, Y) required 65 steps:
 (40, 1)
 
 Map:
-- - - - - - - - - - - - - - - - - - - - - 
-|                       | ******|*******B 
--   -   - - - - - - -   - * -  *-*  - - - 
-|   |   |****************** |  *|*      | 
-- - -   -*- - - -   - - - - -  *-*- -   - 
-|       |*      |   |       |  ***      | 
--   - - -*  -   - - -   -   - - - - -   - 
-|        *  |           |       |   |   | 
--   - - -*- - - - - - - - - -   -   -   - 
-|       |*  |       |           |   |   | 
-- - -   -*  -   -   -   - - - - -   -   - 
-|   |   |*  |   |   |   |               | 
--   -   -*  -   -   -   - - - - - - -   - 
-|   |    *  |   |       |           |   | 
--   - - -*  -   - - - - -   - - -   -   - 
-|       |*  |       |       |   |   |   | 
-- - -   -*  - - -   -   - - -   -   -   - 
-|       |*  |       |   |       |   |   | 
--   - - -*  -   - - -   - - -   -   - - - 
-| ********  |                   |       | 
+- - - - - - - - - - - - - - - - - - - - -
+|                       | ******|*******B
+-   -   - - - - - - -   - * -  *-*  - - -
+|   |   |****************** |  *|*      |
+- - -   -*- - - -   - - - - -  *-*- -   -
+|       |*      |   |       |  ***      |
+-   - - -*  -   - - -   -   - - - - -   -
+|        *  |           |       |   |   |
+-   - - -*- - - - - - - - - -   -   -   -
+|       |*  |       |           |   |   |
+- - -   -*  -   -   -   - - - - -   -   -
+|   |   |*  |   |   |   |               |
+-   -   -*  -   -   -   - - - - - - -   -
+|   |    *  |   |       |           |   |
+-   - - -*  -   - - - - -   - - -   -   -
+|       |*  |       |       |   |   |   |
+- - -   -*  - - -   -   - - -   -   -   -
+|       |*  |       |   |       |   |   |
+-   - - -*  -   - - -   - - -   -   - - -
+| ********  |                   |       |
 - A - - - - - - - - - - - - - - - - - - -
 ```
 
@@ -279,14 +279,14 @@ Where it outputs:
 ==10433== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
 ==10433== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
 ==10433== Command: ./astarv2.exe
-==10433== 
+==10433==
 
 Initial Map:
-A          
+A
 --| |------
-           
-   |-----| 
-   |     | 
+
+   |-----|
+   |     |
 ---|     |B
 
 Path from A to B (X, Y) required 15 steps:
@@ -308,19 +308,19 @@ Path from A to B (X, Y) required 15 steps:
 (10, 5)
 
 Map:
-A***       
+A***
 --|*|------
    ********
    |-----|*
    |     |*
 ---|     |B
-==10433== 
+==10433==
 ==10433== HEAP SUMMARY:
 ==10433==     in use at exit: 0 bytes in 0 blocks
 ==10433==   total heap usage: 363 allocs, 363 frees, 101,000 bytes allocated
-==10433== 
+==10433==
 ==10433== All heap blocks were freed -- no leaks are possible
-==10433== 
+==10433==
 ==10433== For lists of detected and suppressed errors, rerun with: -s
 ==10433== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 ```
@@ -338,14 +338,14 @@ It outputs:
 ==10456== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
 ==10456== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
 ==10456== Command: ./astar.exe
-==10456== 
+==10456==
 
 Initial Map:
-A          
+A
 --| |------
-           
-   |-----| 
-   |     | 
+
+   |-----|
+   |     |
 ---|     |B
 
 Path from A to B (X, Y) required 15 steps:
@@ -367,17 +367,17 @@ Path from A to B (X, Y) required 15 steps:
 (10, 5)
 
 Map:
-A***       
+A***
 --|*|------
    ********
    |-----|*
    |     |*
 ---|     |B
-==10456== 
+==10456==
 ==10456== HEAP SUMMARY:
 ==10456==     in use at exit: 2,160 bytes in 90 blocks
 ==10456==   total heap usage: 363 allocs, 273 frees, 87,680 bytes allocated
-==10456== 
+==10456==
 ==10456== LEAK SUMMARY:
 ==10456==    definitely lost: 1,632 bytes in 68 blocks
 ==10456==    indirectly lost: 528 bytes in 22 blocks
@@ -385,7 +385,7 @@ A***
 ==10456==    still reachable: 0 bytes in 0 blocks
 ==10456==         suppressed: 0 bytes in 0 blocks
 ==10456== Rerun with --leak-check=full to see details of leaked memory
-==10456== 
+==10456==
 ==10456== For lists of detected and suppressed errors, rerun with: -s
 ==10456== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 ```

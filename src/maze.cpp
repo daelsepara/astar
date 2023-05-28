@@ -148,7 +148,7 @@ void generate(vector<vector<int>> &maze, vector<Cell> &unvisited, vector<Cell> &
 	unvisited.pop_back();
 	visited.push_back(current);
 	maze[current.y][current.x] = V;
-	
+
 	while(unvisited.size() != 0){
 		if(unvisited_neighbors(maze, current)){
 			Cell neighbor = random_unvisited_neighbor(maze, current);
@@ -156,11 +156,11 @@ void generate(vector<vector<int>> &maze, vector<Cell> &unvisited, vector<Cell> &
 
 			current = neighbor;
 			remove(unvisited, current);
-			visited.push_back(current);	
+			visited.push_back(current);
 			maze[current.y][current.x] = V;
 		}else if(visited.size() != 0){
 			current = visited.back();
-			visited.pop_back();	
+			visited.pop_back();
 		}
 	}
 }
@@ -178,7 +178,7 @@ int main(int argc, char* argv[]){
 	if(argc > 2){
 		width = atoi(argv[2]);
 	}
-	
+
 	const int H = height*2+1; // array height
 	const int W = width*2+1;  // array width
 
